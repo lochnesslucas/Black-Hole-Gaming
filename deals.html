@@ -191,7 +191,7 @@
             placeholder="Search games..."
         >
 
-        <select>
+        <select id="storeFilter">
             <option>All Stores</option>
             <option>Steam</option>
             <option>Epic Games Store</option>
@@ -263,7 +263,7 @@
         </div>
 
 
-        <div class="deal">
+        <div class="deal" data-price="7.49">
 
             <h3>Example Horror Game</h3>
 
@@ -271,7 +271,7 @@
                 Epic Games Store
             </p>
 
-            <div class="deal" data-price="7.49">
+            <div class="prices">
 
                 <span class="old-price">$29.99</span>
 
@@ -389,6 +389,35 @@ priceFilter.addEventListener('change', function() {
 });
 
 </script>
-    
+<script>
+
+const storeFilter = document.querySelector('#storeFilter');
+
+storeFilter.addEventListener('change', function() {
+
+    const selectedStore = storeFilter.value;
+
+    deals.forEach(function(deal) {
+
+        const store = deal.querySelector('.store').textContent;
+
+        if (selectedStore === 'All Stores') {
+            deal.style.display = '';
+        }
+
+        else if (store === selectedStore) {
+            deal.style.display = '';
+        }
+
+        else {
+            deal.style.display = 'none';
+        }
+
+    });
+
+});
+
+</script>
+
 </body>
 </html>
