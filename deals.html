@@ -395,11 +395,11 @@ const storeFilter = document.querySelector('#storeFilter');
 
 storeFilter.addEventListener('change', function() {
 
-    const selectedStore = storeFilter.value;
+    const selectedStore = storeFilter.value.trim().toLowerCase();
 
     deals.forEach(function(deal) {
 
-        const store = deal.querySelector('.store').textContent.trim();
+        const store = deal.querySelector('.store').textContent.trim().toLowerCase();
 
         if (selectedStore === 'All Stores') {
             deal.style.display = '';
