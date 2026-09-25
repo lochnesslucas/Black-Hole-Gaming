@@ -162,6 +162,7 @@
 
     </footer>
 <script>
+<script>
 
 const dealsContainer = document.querySelector('#dealsContainer');
 
@@ -173,7 +174,7 @@ async function loadFreeGames() {
     try {
 
         const response = await fetch(
-            'https://www.cheapshark.com/api/1.0/deals?upperPrice=0&pageSize=60'
+            'https://www.gamerpower.com/api/giveaways?platform=pc&type=game'
         );
 
         if (!response.ok) {
@@ -184,59 +185,55 @@ async function loadFreeGames() {
 
         dealsContainer.innerHTML = '';
 
-        let foundGames = 0;
+        if (!Array.isArray(games) || games.length === 0) {
+
+            dealsContainer.innerHTML =
+                '<p>No free PC games found right now.</p>';
+
+            return;
+        }
 
         games.forEach(function(game) {
 
-            const salePrice = parseFloat(game.salePrice);
+            const dealElement =
+                document.createElement('div');
 
-            if (salePrice <= 0) {
+            dealElement.className = 'deal';
 
-                const dealElement =
-                    document.createElement('div');
+            dealElement.innerHTML = `
+                <img
+                    src="${game.thumbnail}"
+                    alt="${game.title}"
+                    class="deal-image"
+                >
 
-                dealElement.className = 'deal';
+                <h3>${game.title}</h3>
 
-                dealElement.innerHTML = `
-                    <img
-                        src="${game.thumb}"
-                        alt="${game.title}"
-                        class="deal-image"
-                    >
+                <p class="store">
+                    ${game.platforms}
+                </p>
 
-                    <h3>${game.title}</h3>
+                <div class="free-price">
+                    FREE
+                </div>
 
-                    <div class="free-price">
-                        FREE
-                    </div>
+                <div class="free-badge">
+                    ${game.type}
+                </div>
 
-                    <div class="free-badge">
-                        100% OFF
-                    </div>
+                <a
+                    href="${game.open_giveaway_url}"
+                    class="deal-button"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Get Game
+                </a>
+            `;
 
-                    <a
-                        href="https://www.cheapshark.com/redirect?dealID=${game.dealID}"
-                        class="deal-button"
-                        target="_blank"
-                    >
-                        Get Game
-                    </a>
-                `;
-
-                dealsContainer.appendChild(dealElement);
-
-                foundGames++;
-
-            }
+            dealsContainer.appendChild(dealElement);
 
         });
-
-        if (foundGames === 0) {
-
-            dealsContainer.innerHTML =
-                '<p>No free games were found right now.</p>';
-
-        }
 
     } catch (error) {
 
