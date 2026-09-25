@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Games - Black Hole Gaming</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0b16;
+            color: white;
+        }
+
+        header {
+            background: #111122;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #9b5cff;
+        }
+
+        header p {
+            color: #aaa;
+        }
+
+        nav {
+            margin-top: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        nav a:hover {
+            color: #9b5cff;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+        }
+
+        .deals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .deal {
+            background: #131326;
+            border: 1px solid #29294a;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .deal-image {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .deal h3 {
+            margin-bottom: 12px;
+        }
+
+        .store {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .free-price {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .free-badge {
+            display: inline-block;
+            background: #34205c;
+            color: #c9a8ff;
+            padding: 5px 8px;
+            border-radius: 5px;
+        }
+
+        .deal-button {
+            display: block;
+            text-align: center;
+            background: #6c2cff;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .deal-button:hover {
+            background: #824cff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Black Hole Gaming</h1>
+
+        <p>Fall into the world of gaming.</p>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="deals.html">Game Deals</a>
+            <a href="under5.html">Under $5</a>
+            <a href="under10.html">Under $10</a>
+            <a href="freegames.html">Free Games</a>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <h2>Free Games</h2>
+
+        <div class="deals" id="dealsContainer">
+
+            <p>Loading free games...</p>
+
+        </div>
+
+    </main>
+
+    <footer>
+
+        Black Hole Gaming
+
+    </footer>
+
+</body>
+
+</html>
