@@ -161,6 +161,97 @@
         Black Hole Gaming
 
     </footer>
+<script>
+
+const dealsContainer = document.querySelector('#dealsContainer');
+
+async function loadFreeGames() {
+
+    dealsContainer.innerHTML =
+        '<p>Loading free games...</p>';
+
+    try {
+
+        const response = await fetch(
+            'https://www.cheapshark.com/api/1.0/deals?upperPrice=0&pageSize=60'
+        );
+
+        if (!response.ok) {
+            throw new Error('Could not load free games');
+        }
+
+        const games = await response.json();
+
+        dealsContainer.innerHTML = '';
+
+        let foundGames = 0;
+
+        games.forEach(function(game) {
+
+            const salePrice = parseFloat(game.salePrice);
+
+            if (salePrice <= 0) {
+
+                const dealElement =
+                    document.createElement('div');
+
+                dealElement.className = 'deal';
+
+                dealElement.innerHTML = `
+                    <img
+                        src="${game.thumb}"
+                        alt="${game.title}"
+                        class="deal-image"
+                    >
+
+                    <h3>${game.title}</h3>
+
+                    <div class="free-price">
+                        FREE
+                    </div>
+
+                    <div class="free-badge">
+                        100% OFF
+                    </div>
+
+                    <a
+                        href="https://www.cheapshark.com/redirect?dealID=${game.dealID}"
+                        class="deal-button"
+                        target="_blank"
+                    >
+                        Get Game
+                    </a>
+                `;
+
+                dealsContainer.appendChild(dealElement);
+
+                foundGames++;
+
+            }
+
+        });
+
+        if (foundGames === 0) {
+
+            dealsContainer.innerHTML =
+                '<p>No free games were found right now.</p>';
+
+        }
+
+    } catch (error) {
+
+        dealsContainer.innerHTML =
+            '<p>Sorry, we could not load free games right now.</p>';
+
+        console.error(error);
+
+    }
+
+}
+
+loadFreeGames();
+
+</script>
 
 </body>
 
