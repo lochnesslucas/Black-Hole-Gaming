@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Game Deals - Black Hole Gaming</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #080812;
+            color: white;
+        }
+
+        header {
+            background: #111122;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 2px solid #6c2cff;
+        }
+
+        header h1 {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #aaa;
+        }
+
+        nav {
+            background: #0d0d19;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #9b6cff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 38px;
+        }
+
+        .page-description {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+        }
+
+        .filters {
+            background: #131326;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #33334f;
+            background: #0d0d19;
+            color: white;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .deals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .deal {
+            background: #131326;
+            border: 1px solid #29294a;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .deal h3 {
+            margin-bottom: 12px;
+        }
+
+        .store {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .prices {
+            margin-bottom: 15px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #777;
+            margin-right: 10px;
+        }
+
+        .sale-price {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .discount {
+            display: inline-block;
+            background: #34205c;
+            color: #c9a8ff;
+            padding: 5px 8px;
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+
+        .deal-button {
+            display: block;
+            text-align: center;
+            background: #6c2cff;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .deal-button:hover {
+            background: #824cff;
+        }
+
+        footer {
+            background: #0d0d19;
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🕳️ Black Hole Gaming</h1>
+    <p>Fall into the world of gaming.</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="deals.html">Game Deals</a>
+    <a href="#">Free Games</a>
+    <a href="#">Game Finder</a>
+</nav>
+
+<main class="container">
+
+    <h2 class="page-title">💰 Game Deals</h2>
+
+    <p class="page-description">
+        Find games on sale and discover your next great deal.
+    </p>
+
+    <div class="filters">
+
+        <input
+            type="text"
+            placeholder="Search games..."
+        >
+
+        <select>
+            <option>All Stores</option>
+            <option>Steam</option>
+            <option>Epic Games Store</option>
+            <option>GOG</option>
+        </select>
+
+        <select>
+            <option>Any Price</option>
+            <option>Under $5</option>
+            <option>Under $10</option>
+            <option>Under $20</option>
+        </select>
+
+    </div>
+
+    <div class="deals">
+
+        <div class="deal">
+
+            <h3>Example RPG Game</h3>
+
+            <p class="store">
+                Steam
+            </p>
+
+            <div class="prices">
+
+                <span class="old-price">$59.99</span>
+
+                <span class="sale-price">$14.99</span>
+
+                <div class="discount">
+                    75% OFF
+                </div>
+
+            </div>
+
+            <a href="#" class="deal-button">
+                View Deal
+            </a>
+
+        </div>
+
+
+        <div class="deal">
+
+            <h3>Example Adventure Game</h3>
+
+            <p class="store">
+                GOG
+            </p>
+
+            <div class="prices">
+
+                <span class="old-price">$39.99</span>
+
+                <span class="sale-price">$9.99</span>
+
+                <div class="discount">
+                    75% OFF
+                </div>
+
+            </div>
+
+            <a href="#" class="deal-button">
+                View Deal
+            </a>
+
+        </div>
+
+
+        <div class="deal">
+
+            <h3>Example Horror Game</h3>
+
+            <p class="store">
+                Epic Games Store
+            </p>
+
+            <div class="prices">
+
+                <span class="old-price">$29.99</span>
+
+                <span class="sale-price">$7.49</span>
+
+                <div class="discount">
+                    75% OFF
+                </div>
+
+            </div>
+
+            <a href="#" class="deal-button">
+                View Deal
+            </a>
+
+        </div>
+
+
+        <div class="deal">
+
+            <h3>Example Multiplayer Game</h3>
+
+            <p class="store">
+                Steam
+            </p>
+
+            <div class="prices">
+
+                <span class="old-price">$19.99</span>
+
+                <span class="sale-price">$4.99</span>
+
+                <div class="discount">
+                    75% OFF
+                </div>
+
+            </div>
+
+            <a href="#" class="deal-button">
+                View Deal
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 Black Hole Gaming</p>
+</footer>
+
+</body>
+</html>
