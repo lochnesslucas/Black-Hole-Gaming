@@ -79,7 +79,8 @@
             margin-bottom: 35px;
         }
 
-        .search-box {
+        .search-box,
+        #priceFilter {
             width: 100%;
             padding: 15px;
             border-radius: 8px;
@@ -92,6 +93,9 @@
         .search-box:focus {
             outline: none;
             border-color: #6c2cff;
+        }
+        #priceFilter {
+            margin-top: 15px;
         }
 
         .results {
@@ -210,6 +214,9 @@
 const searchBox = document.querySelector('.search-box');
 const results = document.querySelector('#results');
 
+const priceFilter =
+    document.querySelector('#priceFilter');
+    
 let searchTimer;
 
 const storeNames = {
@@ -296,10 +303,37 @@ async function searchGames() {
 
         results.innerHTML = '';
 
+        const selectedPrice =
+            priceFilter.value;
+
         games.forEach(function(game) {
 
-            const details =
-                gameDetails[game.gameID];
+    const gamePrice =
+        parseFloat(game.cheapest);
+
+    if (
+        selectedPrice === 'Under $5' &&
+        gamePrice >= 5
+    ) {
+        return;
+    }
+
+    if (
+        selectedPrice === 'Under $10' &&
+        gamePrice >= 10
+    ) {
+        return;
+    }
+
+    if (
+        selectedPrice === 'Under $20' &&
+        gamePrice >= 20
+    ) {
+        return;
+    }
+
+    const details =
+        gameDetails[game.gameID];
 
             let storeName =
                 'Store unavailable';
@@ -406,7 +440,14 @@ searchBox.addEventListener(
 
     }
 );
+priceFilter.addEventListener(
+    'change',
+    function() {
 
+        searchGames();
+
+    }
+);
 </script>
 </body>
 
