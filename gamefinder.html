@@ -260,8 +260,6 @@ async function searchGames() {
 
         const games = await response.json();
 
-        results.innerHTML = '';
-
         if (!Array.isArray(games) || games.length === 0) {
 
             results.innerHTML =
@@ -271,12 +269,76 @@ async function searchGames() {
 
         }
 
-        games.forEach(async function(game) {
+        const gameIDs =
+            games
+                .map(function(game) {
+                    return game.gameID;
+                })
+                .join(',');
+
+        const detailsResponse = await fetch(
+            'https://www.cheapshark.com/api/1.0/games?ids=' +
+            gameIDs
+        );
+
+        if (!detailsResponse.ok) {
+            throw new Error('Could not load game deals');
+        }
+
+        const gameDetails =
+            await detailsResponse.json();
+
+        results.innerHTML = '';
+
+        games.forEach(function(game) {
+
+            const details =
+                gameDetails[game.gameID];
+
+            let storeName =
+                'Store unavailable';
+
+            let price =
+                parseFloat(game.cheapest);
+
+            let dealID =
+                game.cheapestDealID;
+
+            if (
+                details &&
+                details.deals &&
+                details.deals.length > 0
+            ) {
+
+                const cheapestDeal =
+                    details.deals.reduce(
+                        function(lowest, deal) {
+
+                            return parseFloat(deal.price) <
+                                parseFloat(lowest.price)
+                                ? deal
+                                : lowest;
+
+                        }
+                    );
+
+                storeName =
+                    storeNames[cheapestDeal.storeID] ||
+                    'Other Store';
+
+                price =
+                    parseFloat(cheapestDeal.price);
+
+                dealID =
+                    cheapestDeal.dealID;
+
+            }
 
             const gameCard =
                 document.createElement('div');
 
-            gameCard.className = 'game-card';
+            gameCard.className =
+                'game-card';
 
             gameCard.innerHTML = `
 
@@ -290,15 +352,17 @@ async function searchGames() {
 
                 <p>
                     Cheapest current price:
-                    <strong>$${parseFloat(game.cheapest).toFixed(2)}</strong>
+                    <strong>
+                        $${price.toFixed(2)}
+                    </strong>
                 </p>
 
                 <p class="store">
-                    Loading store...
+                    ${storeName}
                 </p>
 
                 <a
-                    href="https://www.cheapshark.com/redirect?dealID=${game.cheapestDealID}"
+                    href="https://www.cheapshark.com/redirect?dealID=${dealID}"
                     class="game-button"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -309,61 +373,6 @@ async function searchGames() {
             `;
 
             results.appendChild(gameCard);
-
-            try {
-
-                const dealResponse = await fetch(
-                    'https://www.cheapshark.com/api/1.0/games?id=' +
-                    game.gameID
-                );
-
-                if (!dealResponse.ok) {
-                    throw new Error('Could not load store');
-                }
-
-                const gameData =
-                    await dealResponse.json();
-
-                if (
-                    gameData.deals &&
-                    gameData.deals.length > 0
-                ) {
-
-                    const cheapestDeal =
-                        gameData.deals.reduce(
-                            function(lowest, deal) {
-
-                                return parseFloat(deal.price) <
-                                    parseFloat(lowest.price)
-                                    ? deal
-                                    : lowest;
-
-                            }
-                        );
-
-                    const storeName =
-                        storeNames[cheapestDeal.storeID] ||
-                        'Other Store';
-
-                    const storeElement =
-                        gameCard.querySelector('.store');
-
-                    storeElement.textContent =
-                        storeName;
-
-                }
-
-            } catch (error) {
-
-                const storeElement =
-                    gameCard.querySelector('.store');
-
-                storeElement.textContent =
-                    'Store unavailable';
-
-                console.error(error);
-
-            }
 
         });
 
