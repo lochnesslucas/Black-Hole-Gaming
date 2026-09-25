@@ -376,6 +376,32 @@ function displayDeals() {
 
         const gameName = deal.title.toLowerCase();
         const store = deal.storeID;
+        const storeNames = {
+            "1": "Steam",
+            "2": "GamersGate",
+            "3": "GreenManGaming",
+            "7": "GOG",
+            "8": "Origin",
+            "11": "Humble Store",
+            "13": "Ubisoft Store",
+            "15": "Fanatical",
+            "21": "WinGameStore",
+            "23": "GameBillet",
+            "24": "Voidu",
+            "25": "Epic Games Store",
+            "27": "GamesPlanet",
+            "28": "2Game",
+            "29": "Amazon",
+            "30": "IndieGala",
+            "31": "DreamGame",
+            "33": "GameJolt",
+            "34": "Gamesload",
+            "35": "Playsum"
+        };
+
+        const storeName =
+            storeNames[deal.storeID] || "Other Store";
+        
         const salePrice = parseFloat(deal.salePrice);
         const normalPrice = parseFloat(deal.normalPrice);
         const discount = parseFloat(deal.savings);
@@ -415,7 +441,7 @@ function displayDeals() {
                 <h3>${deal.title}</h3>
 
                 <p class="store">
-                    Store ID: ${deal.storeID}
+                    Store ID: ${storeName}
                 </p>
 
                 <div class="prices">
