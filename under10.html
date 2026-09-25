@@ -171,6 +171,148 @@
 
     </footer>
 
+<script>
+
+const dealsContainer = document.querySelector('#dealsContainer');
+
+const storeNames = {
+    "1": "Steam",
+    "2": "GamersGate",
+    "3": "GreenManGaming",
+    "7": "GOG",
+    "8": "Origin",
+    "11": "Humble Store",
+    "13": "Ubisoft Store",
+    "15": "Fanatical",
+    "21": "WinGameStore",
+    "23": "GameBillet",
+    "24": "Voidu",
+    "25": "Epic Games Store",
+    "27": "GamesPlanet",
+    "28": "2Game",
+    "29": "Amazon",
+    "30": "IndieGala",
+    "31": "DreamGame",
+    "33": "GameJolt",
+    "34": "Gamesload",
+    "35": "Playsum"
+};
+
+async function loadDeals() {
+
+    dealsContainer.innerHTML =
+        '<p>Loading games under $10...</p>';
+
+    try {
+
+        const response = await fetch(
+            'https://www.cheapshark.com/api/1.0/deals?onSale=1&pageSize=50'
+        );
+
+        if (!response.ok) {
+            throw new Error('Could not load deals');
+        }
+
+        const deals = await response.json();
+
+        deals.sort(function(a, b) {
+            return parseFloat(a.salePrice) -
+                   parseFloat(b.salePrice);
+        });
+
+        dealsContainer.innerHTML = '';
+
+        let foundGames = 0;
+
+        deals.forEach(function(deal) {
+
+            const salePrice = parseFloat(deal.salePrice);
+
+            if (salePrice >= 5 && salePrice < 10) {
+
+                const normalPrice =
+                    parseFloat(deal.normalPrice);
+
+                const discount =
+                    parseFloat(deal.savings);
+
+                const storeName =
+                    storeNames[deal.storeID] ||
+                    "Other Store";
+
+                const dealElement =
+                    document.createElement('div');
+
+                dealElement.className = 'deal';
+
+                dealElement.innerHTML = `
+                    <img
+                        src="${deal.thumb}"
+                        alt="${deal.title}"
+                        class="deal-image"
+                    >
+
+                    <h3>${deal.title}</h3>
+
+                    <p class="store">
+                        ${storeName}
+                    </p>
+
+                    <div class="prices">
+
+                        <span class="old-price">
+                            $${normalPrice.toFixed(2)}
+                        </span>
+
+                        <span class="sale-price">
+                            $${salePrice.toFixed(2)}
+                        </span>
+
+                        <div class="discount">
+                            ${Math.round(discount)}% OFF
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="https://www.cheapshark.com/redirect?dealID=${deal.dealID}"
+                        class="deal-button"
+                        target="_blank"
+                    >
+                        View Deal
+                    </a>
+                `;
+
+                dealsContainer.appendChild(dealElement);
+
+                foundGames++;
+
+            }
+
+        });
+
+        if (foundGames === 0) {
+
+            dealsContainer.innerHTML =
+                '<p>No games between $5 and $10 found right now.</p>';
+
+        }
+
+    } catch (error) {
+
+        dealsContainer.innerHTML =
+            '<p>Sorry, we could not load the games right now.</p>';
+
+        console.error(error);
+
+    }
+
+}
+
+loadDeals();
+
+</script>
+
 </body>
 
 </html>
