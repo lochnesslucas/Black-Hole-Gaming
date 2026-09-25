@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Game Finder - Black Hole Gaming</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #080812;
+            color: white;
+        }
+
+        header {
+            background: #111122;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 2px solid #6c2cff;
+        }
+
+        header h1 {
+            margin: 0 0 8px 0;
+            color: #9b5cff;
+        }
+
+        header p {
+            color: #aaa;
+            margin: 0;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #9b6cff;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .intro {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 35px;
+        }
+
+        .finder {
+            background: #131326;
+            border: 1px solid #29294a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 35px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #39395a;
+            background: #0b0b16;
+            color: white;
+            font-size: 16px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #6c2cff;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: #131326;
+            border: 1px solid #29294a;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .game-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .game-card p {
+            color: #aaa;
+        }
+
+        .game-button {
+            display: block;
+            text-align: center;
+            background: #6c2cff;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .game-button:hover {
+            background: #824cff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>🕳️ Black Hole Gaming</h1>
+
+        <p>Fall into the world of gaming.</p>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="deals.html">Game Deals</a>
+
+            <a href="under5.html">Under $5</a>
+
+            <a href="under10.html">Under $10</a>
+
+            <a href="freegames.html">Free Games</a>
+
+            <a href="gamefinder.html">Game Finder</a>
+
+        </nav>
+
+    </header>
+
+    <main>
+
+        <h2>Game Finder</h2>
+
+        <p class="intro">
+            Search for a game to find available deals.
+        </p>
+
+        <div class="finder">
+
+            <input
+                type="text"
+                class="search-box"
+                placeholder="Search for a game..."
+            >
+
+        </div>
+
+        <div class="results" id="results">
+
+            <p>Search for a game above.</p>
+
+        </div>
+
+    </main>
+
+    <footer>
+
+        Black Hole Gaming
+
+    </footer>
+
+</body>
+
+</html>
