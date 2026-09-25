@@ -197,49 +197,17 @@
         Black Hole Gaming
 
     </footer>
-
 <script>
 
 const searchBox = document.querySelector('.search-box');
 const results = document.querySelector('#results');
 
-let games = [];
+let searchTimer;
 
-async function loadGames() {
-
-    results.innerHTML =
-        '<p>Loading games...</p>';
-
-    try {
-
-        const response = await fetch(
-            'https://www.cheapshark.com/api/1.0/games?limit=100'
-        );
-
-        if (!response.ok) {
-            throw new Error('Could not load games');
-        }
-
-        games = await response.json();
-
-        results.innerHTML =
-            '<p>Type a game name above to search.</p>';
-
-    } catch (error) {
-
-        results.innerHTML =
-            '<p>Sorry, we could not load the games right now.</p>';
-
-        console.error(error);
-
-    }
-
-}
-
-function searchGames() {
+async function searchGames() {
 
     const searchText =
-        searchBox.value.toLowerCase().trim();
+        searchBox.value.trim();
 
     if (searchText === '') {
 
@@ -250,65 +218,105 @@ function searchGames() {
 
     }
 
-    const matches =
-        games.filter(function(game) {
+    results.innerHTML =
+        '<p>Searching for games...</p>';
 
-            return game.external
-                .toLowerCase()
-                .includes(searchText);
+    try {
+
+        const response = await fetch(
+            'https://www.cheapshark.com/api/1.0/games?title=' +
+            encodeURIComponent(searchText) +
+            '&limit=20'
+        );
+
+        if (!response.ok) {
+            throw new Error('Could not search for games');
+        }
+
+        const games = await response.json();
+
+        results.innerHTML = '';
+
+        if (!Array.isArray(games) || games.length === 0) {
+
+            results.innerHTML =
+                '<p>No games found.</p>';
+
+            return;
+
+        }
+
+        games.forEach(function(game) {
+
+            const gameCard =
+                document.createElement('div');
+
+            gameCard.className = 'game-card';
+
+            const price =
+                parseFloat(game.cheapest);
+
+            const priceText =
+                Number.isFinite(price)
+                    ? '$' + price.toFixed(2)
+                    : 'Price unavailable';
+
+            gameCard.innerHTML = `
+
+                <img
+                    src="${game.thumb}"
+                    alt="${game.external}"
+                    style="width:100%; height:100px; object-fit:cover; border-radius:8px; margin-bottom:15px;"
+                >
+
+                <h3>${game.external}</h3>
+
+                <p>
+                    Cheapest current price:
+                    <strong>${priceText}</strong>
+                </p>
+
+                <a
+                    href="https://www.cheapshark.com/redirect?dealID=${game.cheapestDealID}"
+                    class="game-button"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View Best Deal
+                </a>
+
+            `;
+
+            results.appendChild(gameCard);
 
         });
 
-    results.innerHTML = '';
-
-    if (matches.length === 0) {
+    } catch (error) {
 
         results.innerHTML =
-            '<p>No games found.</p>';
+            '<p>Sorry, we could not search for games right now.</p>';
 
-        return;
+        console.error(error);
 
     }
-
-    matches.slice(0, 20).forEach(function(game) {
-
-        const gameCard =
-            document.createElement('div');
-
-        gameCard.className = 'game-card';
-
-        gameCard.innerHTML = `
-
-            <h3>${game.external}</h3>
-
-            <p>
-                View current prices and deals for this game.
-            </p>
-
-            <a
-                href="deals.html"
-                class="game-button"
-            >
-                View Deals
-            </a>
-
-        `;
-
-        results.appendChild(gameCard);
-
-    });
 
 }
 
 searchBox.addEventListener(
     'input',
-    searchGames
+    function() {
+
+        clearTimeout(searchTimer);
+
+        searchTimer = setTimeout(
+            searchGames,
+            400
+        );
+
+    }
 );
 
-loadGames();
-
 </script>
-
 </body>
 
 </html>
