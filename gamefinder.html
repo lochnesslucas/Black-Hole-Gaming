@@ -451,9 +451,15 @@ games.forEach(function(game) {
 
             results.appendChild(gameCard);
 
-        });
+        visibleGames++;
 
-    } catch (error) {
+        });
+         if (visibleGames === 0) {
+                results.innerHTML =
+                    '<p>No games match this price filter.</p>';
+            }
+        
+        } catch (error) {
 
         results.innerHTML =
             '<p>Sorry, we could not search for games right now.</p>';
