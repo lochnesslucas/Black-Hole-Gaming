@@ -425,21 +425,21 @@ if (
         gamePlatforms.some(function(platform) {
 
             if (selectedPlatform === 'PC') {
-                return platform === 'PC';
+                return platform.toLowerCase().includes('pc');
             }
 
             if (selectedPlatform === 'PlayStation') {
-                return platform.includes('PlayStation');
+                return platform.toLowerCase().includes('playstation');
             }
 
             if (selectedPlatform === 'Xbox') {
-                return platform.includes('Xbox');
+                return platform.toLowerCase().includes('xbox');
             }
 
             if (selectedPlatform === 'Nintendo') {
-                return platform.includes('Nintendo');
+                return platform.toLowerCase().includes('nintendo');
             }
-
+            
             return false;
 
         });
