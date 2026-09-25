@@ -103,7 +103,13 @@
             border-radius: 12px;
             padding: 20px;
         }
-
+        .deal-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
         .deal h3 {
             margin-bottom: 12px;
         }
@@ -438,6 +444,12 @@ function displayDeals() {
             dealElement.className = 'deal';
 
             dealElement.innerHTML = `
+                <img
+                    src="${deal.thumb}"
+                    alt="${deal.title}"
+                    class="deal-image"
+                >
+                
                 <h3>${deal.title}</h3>
 
                 <p class="store">
