@@ -391,6 +391,10 @@ async function loadDeals() {
 
         deals = await response.json();
 
+        deals.sort(function(a, b) {
+            return parseFloat(b.savings) - parseFloat(a.savings);
+        });
+
         displayDeals();
 
     } catch (error) {
