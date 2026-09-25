@@ -375,7 +375,7 @@ function displayDeals() {
     deals.forEach(function(deal) {
 
         const gameName = deal.title.toLowerCase();
-        const store = deal.storeName.toLowerCase();
+        const store = deal.storeID;
         const salePrice = parseFloat(deal.salePrice);
         const normalPrice = parseFloat(deal.normalPrice);
         const discount = parseFloat(deal.savings);
@@ -415,7 +415,7 @@ function displayDeals() {
                 <h3>${deal.title}</h3>
 
                 <p class="store">
-                    ${deal.storeName}
+                    Store ID: ${deal.storeID}
                 </p>
 
                 <div class="prices">
