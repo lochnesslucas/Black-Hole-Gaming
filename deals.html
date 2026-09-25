@@ -381,7 +381,7 @@ function displayDeals() {
     deals.forEach(function(deal) {
 
         const gameName = deal.title.toLowerCase();
-        const store = deal.storeID;
+        const store = (storeNames[deal.storeID] || "Other Store").toLowerCase();
         const storeNames = {
             "1": "Steam",
             "2": "GamersGate",
