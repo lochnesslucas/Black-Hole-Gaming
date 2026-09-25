@@ -302,6 +302,8 @@ async function searchGames() {
             await detailsResponse.json();
 
         results.innerHTML = '';
+        
+        let visibleGames = 0;
 
         const selectedPrice =
     priceFilter.value;
