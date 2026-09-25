@@ -224,6 +224,9 @@ const results = document.querySelector('#results');
 
 const priceFilter =
     document.querySelector('#priceFilter');
+
+const platformFilter =
+    document.querySelector('#platformFilter');
     
 let searchTimer;
 
@@ -315,6 +318,9 @@ async function searchGames() {
 
         const selectedPrice =
     priceFilter.value;
+
+        const selectedPlatform =
+    platformFilter.value;
 
 games.forEach(function(game) {
 
