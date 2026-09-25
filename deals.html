@@ -326,86 +326,46 @@
 
 <script>
 
+<script>
+
 const searchBox = document.querySelector('.filters input');
+const storeFilter = document.querySelector('#storeFilter');
+const priceFilter = document.querySelectorAll('.filters select')[1];
 const deals = document.querySelectorAll('.deal');
 
-searchBox.addEventListener('input', function() {
+function filterDeals() {
 
     const searchText = searchBox.value.toLowerCase();
-
-    deals.forEach(function(deal) {
-
-        const gameName = deal
-            .querySelector('h3')
-            .textContent
-            .toLowerCase();
-
-        if (gameName.includes(searchText)) {
-            deal.style.display = '';
-        } else {
-            deal.style.display = 'none';
-        }
-
-    });
-
-});
-
-</script>    
-
-    <script>
-
-const priceFilter = document.querySelectorAll('.filters select')[1];
-
-priceFilter.addEventListener('change', function() {
-
+    const selectedStore = storeFilter.value.toLowerCase();
     const selectedPrice = priceFilter.value;
 
     deals.forEach(function(deal) {
 
+        const gameName = deal.querySelector('h3').textContent.toLowerCase();
+        const store = deal.querySelector('.store').textContent.trim().toLowerCase();
         const price = parseFloat(deal.dataset.price);
 
-        if (selectedPrice === 'Any Price') {
-            deal.style.display = '';
+        let matchesSearch = gameName.includes(searchText);
+
+        let matchesStore =
+            selectedStore === 'all stores' ||
+            store === selectedStore;
+
+        let matchesPrice = true;
+
+        if (selectedPrice === 'Under $5') {
+            matchesPrice = price < 5;
         }
 
-        else if (selectedPrice === 'Under $5' && price < 5) {
-            deal.style.display = '';
+        else if (selectedPrice === 'Under $10') {
+            matchesPrice = price < 10;
         }
 
-        else if (selectedPrice === 'Under $10' && price < 10) {
-            deal.style.display = '';
+        else if (selectedPrice === 'Under $20') {
+            matchesPrice = price < 20;
         }
 
-        else if (selectedPrice === 'Under $20' && price < 20) {
-            deal.style.display = '';
-        }
-
-        else {
-            deal.style.display = 'none';
-        }
-
-    });
-
-});
-
-</script>
-<script>
-
-const storeFilter = document.querySelector('#storeFilter');
-
-storeFilter.addEventListener('change', function() {
-
-    const selectedStore = storeFilter.value.trim().toLowerCase();
-
-    deals.forEach(function(deal) {
-
-        const store = deal.querySelector('.store').textContent.trim().toLowerCase();
-
-        if (selectedStore === 'All Stores') {
-            deal.style.display = '';
-        }
-
-        else if (store === selectedStore) {
+        if (matchesSearch && matchesStore && matchesPrice) {
             deal.style.display = '';
         }
 
@@ -415,7 +375,13 @@ storeFilter.addEventListener('change', function() {
 
     });
 
-});
+}
+
+searchBox.addEventListener('input', filterDeals);
+
+storeFilter.addEventListener('change', filterDeals);
+
+priceFilter.addEventListener('change', filterDeals);
 
 </script>
 
