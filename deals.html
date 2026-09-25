@@ -399,7 +399,7 @@ storeFilter.addEventListener('change', function() {
 
     deals.forEach(function(deal) {
 
-        const store = deal.querySelector('.store').textContent;
+        const store = deal.querySelector('.store').textContent.trim();
 
         if (selectedStore === 'All Stores') {
             deal.style.display = '';
