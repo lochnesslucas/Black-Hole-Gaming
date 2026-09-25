@@ -199,10 +199,35 @@
     </footer>
 <script>
 
+<script>
+
 const searchBox = document.querySelector('.search-box');
 const results = document.querySelector('#results');
 
 let searchTimer;
+
+const storeNames = {
+    "1": "Steam",
+    "2": "GamersGate",
+    "3": "GreenManGaming",
+    "7": "GOG",
+    "8": "Origin",
+    "11": "Humble Store",
+    "13": "Ubisoft Store",
+    "15": "Fanatical",
+    "21": "WinGameStore",
+    "23": "GameBillet",
+    "24": "Voidu",
+    "25": "Epic Games Store",
+    "27": "GamesPlanet",
+    "28": "2Game",
+    "29": "Amazon",
+    "30": "IndieGala",
+    "31": "DreamGame",
+    "33": "GameJolt",
+    "34": "Gamesload",
+    "35": "Playsum"
+};
 
 async function searchGames() {
 
@@ -246,20 +271,12 @@ async function searchGames() {
 
         }
 
-        games.forEach(function(game) {
+        games.forEach(async function(game) {
 
             const gameCard =
                 document.createElement('div');
 
             gameCard.className = 'game-card';
-
-            const price =
-                parseFloat(game.cheapest);
-
-            const priceText =
-                Number.isFinite(price)
-                    ? '$' + price.toFixed(2)
-                    : 'Price unavailable';
 
             gameCard.innerHTML = `
 
@@ -273,7 +290,11 @@ async function searchGames() {
 
                 <p>
                     Cheapest current price:
-                    <strong>${priceText}</strong>
+                    <strong>$${parseFloat(game.cheapest).toFixed(2)}</strong>
+                </p>
+
+                <p class="store">
+                    Loading store...
                 </p>
 
                 <a
@@ -288,6 +309,61 @@ async function searchGames() {
             `;
 
             results.appendChild(gameCard);
+
+            try {
+
+                const dealResponse = await fetch(
+                    'https://www.cheapshark.com/api/1.0/games?id=' +
+                    game.gameID
+                );
+
+                if (!dealResponse.ok) {
+                    throw new Error('Could not load store');
+                }
+
+                const gameData =
+                    await dealResponse.json();
+
+                if (
+                    gameData.deals &&
+                    gameData.deals.length > 0
+                ) {
+
+                    const cheapestDeal =
+                        gameData.deals.reduce(
+                            function(lowest, deal) {
+
+                                return parseFloat(deal.price) <
+                                    parseFloat(lowest.price)
+                                    ? deal
+                                    : lowest;
+
+                            }
+                        );
+
+                    const storeName =
+                        storeNames[cheapestDeal.storeID] ||
+                        'Other Store';
+
+                    const storeElement =
+                        gameCard.querySelector('.store');
+
+                    storeElement.textContent =
+                        storeName;
+
+                }
+
+            } catch (error) {
+
+                const storeElement =
+                    gameCard.querySelector('.store');
+
+                storeElement.textContent =
+                    'Store unavailable';
+
+                console.error(error);
+
+            }
 
         });
 
