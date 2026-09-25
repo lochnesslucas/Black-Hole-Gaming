@@ -218,8 +218,6 @@
     </footer>
 
 <script>
-
-const RAWG_API_KEY = 'YOUR_API_KEY_HERE';
     
 const searchBox = document.querySelector('.search-box');
 
@@ -288,17 +286,15 @@ async function searchGames() {
         const games = await response.json();
         
         const rawgResponse = await fetch(
-            'https://api.rawg.io/api/games?search=' +
-            encodeURIComponent(searchText) +
-            '&key=' +
-            RAWG_API_KEY
-        );
+    'https://black-hole-gaming-api.lucas-jay-simon.workers.dev/games?search=' +
+    encodeURIComponent(searchText)
+);
 
-        if (!rawgResponse.ok) {
-            throw new Error('Could not load platform information');
-        }
+if (!rawgResponse.ok) {
+    throw new Error('Could not load platform information');
+}
 
-        const rawgData = await rawgResponse.json();
+const rawgData = await rawgResponse.json();
         
         if (!Array.isArray(games) || games.length === 0) {
 
