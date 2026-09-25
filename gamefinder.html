@@ -198,6 +198,117 @@
 
     </footer>
 
+<script>
+
+const searchBox = document.querySelector('.search-box');
+const results = document.querySelector('#results');
+
+let games = [];
+
+async function loadGames() {
+
+    results.innerHTML =
+        '<p>Loading games...</p>';
+
+    try {
+
+        const response = await fetch(
+            'https://www.cheapshark.com/api/1.0/games?limit=100'
+        );
+
+        if (!response.ok) {
+            throw new Error('Could not load games');
+        }
+
+        games = await response.json();
+
+        results.innerHTML =
+            '<p>Type a game name above to search.</p>';
+
+    } catch (error) {
+
+        results.innerHTML =
+            '<p>Sorry, we could not load the games right now.</p>';
+
+        console.error(error);
+
+    }
+
+}
+
+function searchGames() {
+
+    const searchText =
+        searchBox.value.toLowerCase().trim();
+
+    if (searchText === '') {
+
+        results.innerHTML =
+            '<p>Type a game name above to search.</p>';
+
+        return;
+
+    }
+
+    const matches =
+        games.filter(function(game) {
+
+            return game.external
+                .toLowerCase()
+                .includes(searchText);
+
+        });
+
+    results.innerHTML = '';
+
+    if (matches.length === 0) {
+
+        results.innerHTML =
+            '<p>No games found.</p>';
+
+        return;
+
+    }
+
+    matches.slice(0, 20).forEach(function(game) {
+
+        const gameCard =
+            document.createElement('div');
+
+        gameCard.className = 'game-card';
+
+        gameCard.innerHTML = `
+
+            <h3>${game.external}</h3>
+
+            <p>
+                View current prices and deals for this game.
+            </p>
+
+            <a
+                href="deals.html"
+                class="game-button"
+            >
+                View Deals
+            </a>
+
+        `;
+
+        results.appendChild(gameCard);
+
+    });
+
+}
+
+searchBox.addEventListener(
+    'input',
+    searchGames
+);
+
+loadGames();
+
+</script>
+
 </body>
 
 </html>
