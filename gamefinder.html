@@ -304,37 +304,72 @@ async function searchGames() {
         results.innerHTML = '';
 
         const selectedPrice =
-            priceFilter.value;
+    priceFilter.value;
 
-        games.forEach(function(game) {
+games.forEach(function(game) {
 
-    const gamePrice =
+    const details =
+        gameDetails[game.gameID];
+
+    let storeName =
+        'Store unavailable';
+
+    let price =
         parseFloat(game.cheapest);
+
+    let dealID =
+        game.cheapestDealID;
+
+    if (
+        details &&
+        details.deals &&
+        details.deals.length > 0
+    ) {
+
+        const cheapestDeal =
+            details.deals.reduce(
+                function(lowest, deal) {
+
+                    return parseFloat(deal.price) <
+                        parseFloat(lowest.price)
+                        ? deal
+                        : lowest;
+
+                }
+            );
+
+        storeName =
+            storeNames[cheapestDeal.storeID] ||
+            'Other Store';
+
+        price =
+            parseFloat(cheapestDeal.price);
+
+        dealID =
+            cheapestDeal.dealID;
+
+    }
 
     if (
         selectedPrice === 'Under $5' &&
-        gamePrice >= 5
+        price >= 5
     ) {
         return;
     }
 
     if (
         selectedPrice === 'Under $10' &&
-        gamePrice >= 10
+        price >= 10
     ) {
         return;
     }
 
     if (
         selectedPrice === 'Under $20' &&
-        gamePrice >= 20
+        price >= 20
     ) {
         return;
     }
-
-    const details =
-        gameDetails[game.gameID];
-
             let storeName =
                 'Store unavailable';
 
