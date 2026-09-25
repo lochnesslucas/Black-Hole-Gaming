@@ -209,8 +209,8 @@
 
     <div class="deals">
 
-        <div class="deal">
-
+        <div class="deal" data-price="14.99">
+    
             <h3>Example RPG Game</h3>
 
             <p class="store">
@@ -236,7 +236,7 @@
         </div>
 
 
-        <div class="deal">
+        <div class="deal" data-price="9.99">
 
             <h3>Example Adventure Game</h3>
 
@@ -271,7 +271,7 @@
                 Epic Games Store
             </p>
 
-            <div class="prices">
+            <div class="deal" data-price="7.49">
 
                 <span class="old-price">$29.99</span>
 
@@ -290,7 +290,7 @@
         </div>
 
 
-        <div class="deal">
+        <div class="deal" data-price="4.99">
 
             <h3>Example Multiplayer Game</h3>
 
@@ -352,5 +352,43 @@ searchBox.addEventListener('input', function() {
 
 </script>    
 
+    <script>
+
+const priceFilter = document.querySelectorAll('.filters select')[1];
+
+priceFilter.addEventListener('change', function() {
+
+    const selectedPrice = priceFilter.value;
+
+    deals.forEach(function(deal) {
+
+        const price = parseFloat(deal.dataset.price);
+
+        if (selectedPrice === 'Any Price') {
+            deal.style.display = '';
+        }
+
+        else if (selectedPrice === 'Under $5' && price < 5) {
+            deal.style.display = '';
+        }
+
+        else if (selectedPrice === 'Under $10' && price < 10) {
+            deal.style.display = '';
+        }
+
+        else if (selectedPrice === 'Under $20' && price < 20) {
+            deal.style.display = '';
+        }
+
+        else {
+            deal.style.display = 'none';
+        }
+
+    });
+
+});
+
+</script>
+    
 </body>
 </html>
