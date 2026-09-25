@@ -219,7 +219,10 @@
 
 <script>
 
+const RAWG_API_KEY = 'YOUR_API_KEY_HERE';
+    
 const searchBox = document.querySelector('.search-box');
+
 const results = document.querySelector('#results');
 
 const priceFilter =
@@ -283,7 +286,20 @@ async function searchGames() {
         }
 
         const games = await response.json();
+        
+        const rawgResponse = await fetch(
+            'https://api.rawg.io/api/games?search=' +
+            encodeURIComponent(searchText) +
+            '&key=' +
+            RAWG_API_KEY
+        );
 
+        if (!rawgResponse.ok) {
+            throw new Error('Could not load platform information');
+        }
+
+        const rawgData = await rawgResponse.json();
+        
         if (!Array.isArray(games) || games.length === 0) {
 
             results.innerHTML =
@@ -316,14 +332,33 @@ async function searchGames() {
         
         let visibleGames = 0;
 
+        const rawgGames =
+            Array.isArray(rawgData.results)
+                ? rawgData.results
+                : [];
+        
         const selectedPrice =
-    priceFilter.value;
+            priceFilter.value;
 
         const selectedPlatform =
     platformFilter.value;
+        
+let platformMatches = [];
 
 games.forEach(function(game) {
-
+    
+    const rawgGame =
+        rawgGames.find(function(rawgGame) {
+            return rawgGame.name.toLowerCase() ===
+                game.external.toLowerCase();
+        });
+    const gamePlatforms =
+        rawgGame && rawgGame.platforms
+            ? rawgGame.platforms.map(function(platform) {
+                return platform.platform.name;
+            })
+            : [];
+    
     const details =
         gameDetails[game.gameID];
 
@@ -386,7 +421,38 @@ games.forEach(function(game) {
     ) {
         return;
     }
+if (
+    selectedPlatform !== 'All Platforms'
+) {
 
+    const matchesPlatform =
+        gamePlatforms.some(function(platform) {
+
+            if (selectedPlatform === 'PC') {
+                return platform === 'PC';
+            }
+
+            if (selectedPlatform === 'PlayStation') {
+                return platform.includes('PlayStation');
+            }
+
+            if (selectedPlatform === 'Xbox') {
+                return platform.includes('Xbox');
+            }
+
+            if (selectedPlatform === 'Nintendo') {
+                return platform.includes('Nintendo');
+            }
+
+            return false;
+
+        });
+
+    if (!matchesPlatform) {
+        return;
+    }
+}
+    
             const gameCard =
                 document.createElement('div');
 
@@ -467,6 +533,15 @@ priceFilter.addEventListener(
 
     }
 );
+platformFilter.addEventListener(
+    'change',
+    function() {
+
+        searchGames();
+
+    }
+);
+    
 </script>
 </body>
 
